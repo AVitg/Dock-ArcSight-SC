@@ -1,0 +1,70 @@
+https://community.softwaregrp.com/t5/ArcSight-User-Discussions/RHEL-7-4-SmartConnector-7-7-User-Interface-Mode-Not-Supported/m-p/1638193
+
+I have also gone through the following posts which did not resolve the issue.
+
+https://community.softwaregrp.com/t5/ArcSight-Discussions/Install-SmartConnector-7-7-0-to-Linux-via-CLI/m-p/1626807
+https://community.softwaregrp.com/t5/ArcSight-Discussions/Anyone-attempt-a-SC-install-on-RHEL-7-4-yet/m-p/1620114
+
+ 
+
+#################################################################################
+
+https://community.softwaregrp.com/t5/ArcSight-User-Discussions/Anyone-attempt-a-SC-install-on-RHEL-7-4-yet/m-p/1627797#M38643
+
+/etc/fonts/local.conf
+
+
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+  <alias>
+    <family>serif</family>
+    <prefer><family>Utopia</family></prefer>
+  </alias>
+  <alias>
+    <family>sans-serif</family>
+    <prefer><family>Utopia</family></prefer>
+  </alias>
+  <alias>
+    <family>monospace</family>
+    <prefer><family>Utopia</family></prefer>
+  </alias>
+  <alias>
+    <family>dialog</family>
+    <prefer><family>Utopia</family></prefer>
+  </alias>
+  <alias>
+    <family>dialoginput</family>
+    <prefer><family>Utopia</family></prefer>
+  </alias>
+</fontconfig>
+
+
+#################################################################################
+
+https://community.softwaregrp.com/t5/ArcSight-User-Discussions/Install-SmartConnector-7-7-0-to-Linux-via-CLI/m-p/1626807
+
+1) My usual steps to install:
+a) Install minimal install of CentOS / RHEL (I check that SmartConnector framework supports this version)
+b) yum -y install zip unzip net-tools
+c) transfer the SmartConnector framework to /tmp as root user:
+/tmp/ArcSight-7.7.0.8036.0-Collectors-Linux64.bin
+d) Go to /tmp and enable execute and run setup:
+chmod +x ArcSight-7.7.0.8036.0-Collectors-Linux64.bin
+./ArcSight-7.7.0.8036.0-Collectors-Linux64.bin
+e) Now you will have CLI based setup
+
+2) In your case I can see that you are using "ArcSight-7.7.0.8036.0-Connector-Linux.bin" and this is 32bit version of SmartConnector framework, please notice the name in my example.
+
+3) OS is 64bit and you do not have required 32bit libaries by default so I you can do following (EoL of 32bit SmartConnectors is 04/2018):
+a) download "ArcSight-7.7.0.8036.0-Collectors-Linux64.bin" and it will install without issue
+b) install 32bit libraries like following:
+yum -y install compat-libstdc++ compat-libstdc++*i686 compat-db compat-db*i686 zip unzip net-tools
+
+4) You can install also as "arcsight" user but to have as service at end of setup you will have to run service setup command as root (it will be noted in the setup of SmartConnector).
+
+Regards,
+
+Marijo
+
+#################################################################################
